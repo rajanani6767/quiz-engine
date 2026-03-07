@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attempt Quiz</title>
+</head>
+<body style="font-family: Arial; margin:40px;">
+
+    <h2>Quiz Questions</h2>
+
+    <div id="questionsContainer"></div>
+
+    <br>
+    <button onclick="submitQuiz()">Submit Quiz</button>
+    <br><br>
+    <button onclick="goBack()">Back</button>
+
+    <script>
+
+        const quizId = localStorage.getItem("quizId");
+        const userId = prompt("Enter Your User ID:");
+
+        let questionsData = [];
+
+        // Load questions
+        window.onload = function() {
+            fetch(`http://localhost:8080/question/quiz/${quizId}`)
+            .then(response => response.json())
+            .then(data => {
+                questionsData = data;
+                const container = document.getElementById("questionsContainer");
+
+                data.forEach(question => {
+                    const div = document.createElement("div");
+
+                    div.innerHTML = `
+                        <p><b>${question.questionTitle}</b></p>
+                        <input type="radio" name="q${question.id}" value="${question.optionA}"> ${question.optionA}<br>
+                        <input type="radio" name="q${question.id}" value="${question.optionB}"> ${question.optionB}<br>
+                        <input type="radio" name="q${question.id}" value="${question.optionC}"> ${question.optionC}<br>
+                        <input type="radio" name="q${question.id}" value="${question.optionD}"> ${question.optionD}<br>
+                        <hr>
+                    `;
+
+                    container.appendChild(div);
+                });
+            });
+        };
+
+        function submitQuiz() {
+
+            let answers = {};
+
+            questionsData.forEach(question => {
+                const selected = document.querySelector(`input[name="q${question.id}"]:checked`);
+                if (selected) {
+                    answers[question.id] = selected.value;
+                }
+            });
+
+            const submission = {
+                userId: parseInt(userId),
+                quizId: parseInt(quizId),
+                answers: answers
+            };
+
+            fetch("http://localhost:8080/quiz/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(submission)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Your Score: " + data.score);
+                localStorage.setItem("resultId", data.id);
+                window.location.href = "result.html";
+            });
+        }
+
+        function goBack() {
+            window.location.href = "quizzes.html";
+        }
+
+    </script>
+
+</body>
+</html>

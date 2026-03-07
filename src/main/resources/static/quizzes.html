@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Quizzes</title>
+</head>
+<body style="font-family: Arial; text-align:center; margin-top:60px;">
+
+    <h2>Available Quizzes</h2>
+
+    <div id="quizList"></div>
+
+    <br>
+    <button onclick="goBack()">Back</button>
+
+    <script>
+
+        // Load quizzes when page loads
+        window.onload = function() {
+            fetch("http://localhost:8080/quiz/all")
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("quizList");
+
+                if (data.length === 0) {
+                    container.innerHTML = "<p>No quizzes available</p>";
+                    return;
+                }
+
+                data.forEach(quiz => {
+                    const div = document.createElement("div");
+                    div.innerHTML = `
+                        <h3>${quiz.title}</h3>
+                        <button onclick="startQuiz(${quiz.id})">Start Quiz</button>
+                        <hr>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+        };
+
+        function startQuiz(quizId) {
+            localStorage.setItem("quizId", quizId);
+            window.location.href = "attempt.html";
+        }
+
+        function goBack() {
+            window.location.href = "index.html";
+        }
+
+    </script>
+
+</body>
+</html>
