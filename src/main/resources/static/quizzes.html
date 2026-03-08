@@ -16,7 +16,7 @@
 
         // Load quizzes when page loads
         window.onload = function() {
-            fetch("http://localhost:8080/quiz/all")
+        	fetch("https://quiz-engine-upzt.onrender.com/quiz/all")
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById("quizList");

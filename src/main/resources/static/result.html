@@ -23,7 +23,7 @@
 
         function downloadCertificate() {
             window.location.href =
-                `http://localhost:8080/result/certificate/${resultId}`;
+            	fetch(`https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`);
         }
 
         function goHome() {

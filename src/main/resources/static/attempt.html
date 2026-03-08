@@ -63,7 +63,7 @@
                 answers: answers
             };
 
-            fetch("http://localhost:8080/quiz/submit", {
+            fetch("https://quiz-engine-upzt.onrender.com/questions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(submission)
