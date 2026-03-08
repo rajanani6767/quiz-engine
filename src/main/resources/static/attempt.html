@@ -114,11 +114,11 @@ function submitQuiz(){
 
         console.log("Result Response:", data);
 
-        const score = data.score || data.totalScore;
+        const score = data.score ?? data.totalScore ?? 0;
 
         alert("Your Score: " + score);
 
-        localStorage.setItem("resultId", data.id || data.resultId);
+        localStorage.setItem("resultId", data.id);
 
         window.location.href = "result.html";
 
