@@ -22,8 +22,16 @@
             "Your Result ID: " + resultId;
 
         function downloadCertificate() {
-            window.location.href =
-            	fetch(`https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`);
+
+            if(!resultId){
+                alert("Result not found");
+                return;
+            }
+
+            const url =
+            `https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`;
+
+            window.open(url, "_blank");
         }
 
         function goHome() {
