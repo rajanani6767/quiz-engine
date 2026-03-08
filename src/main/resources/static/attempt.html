@@ -3,6 +3,7 @@
 <head>
     <title>Attempt Quiz</title>
 </head>
+
 <body style="font-family: Arial; margin:40px;">
 
 <h2>Quiz Questions</h2>
@@ -21,14 +22,17 @@ const userId = prompt("Enter Your User ID:");
 
 let questionsData = [];
 
-// Load questions
+/* LOAD QUESTIONS */
+
 window.onload = function() {
 
     fetch(`https://quiz-engine-upzt.onrender.com/question/quiz/${quizId}`)
     .then(response => {
+
         if(!response.ok){
             throw new Error("Failed to load questions");
         }
+
         return response.json();
     })
     .then(data => {
@@ -57,16 +61,22 @@ window.onload = function() {
             `;
 
             container.appendChild(div);
+
         });
 
     })
     .catch(error => {
+
         console.error(error);
+
         document.getElementById("questionsContainer").innerHTML =
         "<p style='color:red'>Failed to load questions</p>";
+
     });
 };
 
+
+/* SUBMIT QUIZ */
 
 function submitQuiz(){
 
@@ -84,32 +94,61 @@ function submitQuiz(){
     });
 
     const submission = {
+
         userId: parseInt(userId),
         quizId: parseInt(quizId),
         answers: answers
+
     };
 
-    fetch("https://quiz-engine-upzt.onrender.com/questions",{
+    fetch("https://quiz-engine-upzt.onrender.com/result/submit",{
+
         method:"POST",
+
         headers:{
             "Content-Type":"application/json"
         },
+
         body:JSON.stringify(submission)
+
     })
-    .then(response => response.json())
+    .then(response => {
+
+        if(!response.ok){
+            throw new Error("Quiz submission failed");
+        }
+
+        return response.json();
+
+    })
     .then(data => {
 
-        alert("Your Score: " + (data.score || data.totalScore));
+        console.log("Result Response:", data);
 
-        localStorage.setItem("resultId", data.id || data.resultId);
+        alert("Your Score: " + data.score);
 
-        window.location.href="result.html";
+        localStorage.setItem("resultId", data.id);
+
+        window.location.href = "result.html";
+
+    })
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Error submitting quiz");
+
     });
 
 }
 
+
+/* BACK BUTTON */
+
 function goBack(){
-    window.location.href="quizzes.html";
+
+    window.location.href = "quizzes.html";
+
 }
 
 </script>
