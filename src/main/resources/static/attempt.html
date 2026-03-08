@@ -5,82 +5,114 @@
 </head>
 <body style="font-family: Arial; margin:40px;">
 
-    <h2>Quiz Questions</h2>
+<h2>Quiz Questions</h2>
 
-    <div id="questionsContainer"></div>
+<div id="questionsContainer"></div>
 
-    <br>
-    <button onclick="submitQuiz()">Submit Quiz</button>
-    <br><br>
-    <button onclick="goBack()">Back</button>
+<br>
+<button onclick="submitQuiz()">Submit Quiz</button>
+<br><br>
+<button onclick="goBack()">Back</button>
 
-    <script>
+<script>
 
-        const quizId = localStorage.getItem("quizId");
-        const userId = prompt("Enter Your User ID:");
+const quizId = localStorage.getItem("quizId");
+const userId = prompt("Enter Your User ID:");
 
-        let questionsData = [];
+let questionsData = [];
 
-        // Load questions
-        window.onload = function() {
-            fetch(`http://localhost:8080/question/quiz/${quizId}`)
-            .then(response => response.json())
-            .then(data => {
-                questionsData = data;
-                const container = document.getElementById("questionsContainer");
+// Load questions
+window.onload = function() {
 
-                data.forEach(question => {
-                    const div = document.createElement("div");
+    fetch(`https://quiz-engine-upzt.onrender.com/question/quiz/${quizId}`)
+    .then(response => {
+        if(!response.ok){
+            throw new Error("Failed to load questions");
+        }
+        return response.json();
+    })
+    .then(data => {
 
-                    div.innerHTML = `
-                        <p><b>${question.questionTitle}</b></p>
-                        <input type="radio" name="q${question.id}" value="${question.optionA}"> ${question.optionA}<br>
-                        <input type="radio" name="q${question.id}" value="${question.optionB}"> ${question.optionB}<br>
-                        <input type="radio" name="q${question.id}" value="${question.optionC}"> ${question.optionC}<br>
-                        <input type="radio" name="q${question.id}" value="${question.optionD}"> ${question.optionD}<br>
-                        <hr>
-                    `;
+        questionsData = data;
 
-                    container.appendChild(div);
-                });
-            });
-        };
+        const container = document.getElementById("questionsContainer");
+        container.innerHTML = "";
 
-        function submitQuiz() {
+        data.forEach(question => {
 
-            let answers = {};
+            const div = document.createElement("div");
 
-            questionsData.forEach(question => {
-                const selected = document.querySelector(`input[name="q${question.id}"]:checked`);
-                if (selected) {
-                    answers[question.id] = selected.value;
-                }
-            });
+            div.innerHTML = `
+                <p><b>${question.questionTitle}</b></p>
 
-            const submission = {
-                userId: parseInt(userId),
-                quizId: parseInt(quizId),
-                answers: answers
-            };
+                <input type="radio" name="q${question.id}" value="${question.optionA}"> ${question.optionA}<br>
 
-            fetch("https://quiz-engine-upzt.onrender.com/questions", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(submission)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert("Your Score: " + data.score);
-                localStorage.setItem("resultId", data.id);
-                window.location.href = "result.html";
-            });
+                <input type="radio" name="q${question.id}" value="${question.optionB}"> ${question.optionB}<br>
+
+                <input type="radio" name="q${question.id}" value="${question.optionC}"> ${question.optionC}<br>
+
+                <input type="radio" name="q${question.id}" value="${question.optionD}"> ${question.optionD}<br>
+
+                <hr>
+            `;
+
+            container.appendChild(div);
+        });
+
+    })
+    .catch(error => {
+        console.error(error);
+        document.getElementById("questionsContainer").innerHTML =
+        "<p style='color:red'>Failed to load questions</p>";
+    });
+};
+
+
+function submitQuiz(){
+
+    let answers = {};
+
+    questionsData.forEach(question => {
+
+        const selected =
+        document.querySelector(`input[name="q${question.id}"]:checked`);
+
+        if(selected){
+            answers[question.id] = selected.value;
         }
 
-        function goBack() {
-            window.location.href = "quizzes.html";
-        }
+    });
 
-    </script>
+    const submission = {
+        userId: parseInt(userId),
+        quizId: parseInt(quizId),
+        answers: answers
+    };
+
+    fetch("https://quiz-engine-upzt.onrender.com/questions",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(submission)
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        alert("Your Score: " + data.score);
+
+        localStorage.setItem("resultId", data.id);
+
+        window.location.href="result.html";
+    });
+
+}
+
+function goBack(){
+    window.location.href="quizzes.html";
+}
+
+</script>
 
 </body>
 </html>

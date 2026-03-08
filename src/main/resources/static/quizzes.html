@@ -5,49 +5,71 @@
 </head>
 <body style="font-family: Arial; text-align:center; margin-top:60px;">
 
-    <h2>Available Quizzes</h2>
+<h2>Available Quizzes</h2>
 
-    <div id="quizList"></div>
+<div id="quizList"></div>
 
-    <br>
-    <button onclick="goBack()">Back</button>
+<br>
+<button onclick="goBack()">Back</button>
 
-    <script>
+<script>
 
-        // Load quizzes when page loads
-        window.onload = function() {
-        	fetch("https://quiz-engine-upzt.onrender.com/quiz/all")
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById("quizList");
+// Load quizzes when page loads
+window.onload = function () {
 
-                if (data.length === 0) {
-                    container.innerHTML = "<p>No quizzes available</p>";
-                    return;
-                }
+    fetch("https://quiz-engine-upzt.onrender.com/quiz/all")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Failed to fetch quizzes");
+        }
+        return response.json();
+    })
+    .then(data => {
 
-                data.forEach(quiz => {
-                    const div = document.createElement("div");
-                    div.innerHTML = `
-                        <h3>${quiz.title}</h3>
-                        <button onclick="startQuiz(${quiz.id})">Start Quiz</button>
-                        <hr>
-                    `;
-                    container.appendChild(div);
-                });
-            });
-        };
+        const container = document.getElementById("quizList");
+        container.innerHTML = "";
 
-        function startQuiz(quizId) {
-            localStorage.setItem("quizId", quizId);
-            window.location.href = "attempt.html";
+        if (data.length === 0) {
+            container.innerHTML = "<p>No quizzes available</p>";
+            return;
         }
 
-        function goBack() {
-            window.location.href = "index.html";
-        }
+        data.forEach(quiz => {
 
-    </script>
+            const div = document.createElement("div");
+
+            div.innerHTML = `
+                <h3>${quiz.title}</h3>
+                <button onclick="startQuiz(${quiz.id})">Start Quiz</button>
+                <hr>
+            `;
+
+            container.appendChild(div);
+        });
+
+    })
+    .catch(error => {
+        console.error(error);
+        document.getElementById("quizList").innerHTML =
+            "<p style='color:red'>Error loading quizzes</p>";
+    });
+
+};
+
+// Start quiz
+function startQuiz(quizId) {
+
+    localStorage.setItem("quizId", quizId);
+
+    window.location.href = "attempt.html";
+}
+
+// Back button
+function goBack() {
+    window.location.href = "index.html";
+}
+
+</script>
 
 </body>
 </html>
