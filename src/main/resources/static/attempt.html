@@ -28,11 +28,9 @@ window.onload = function() {
 
     fetch(`https://quiz-engine-upzt.onrender.com/question/quiz/${quizId}`)
     .then(response => {
-
         if(!response.ok){
             throw new Error("Failed to load questions");
         }
-
         return response.json();
     })
     .then(data => {
@@ -61,7 +59,6 @@ window.onload = function() {
             `;
 
             container.appendChild(div);
-
         });
 
     })
@@ -101,7 +98,7 @@ function submitQuiz(){
 
     };
 
-    fetch("https://quiz-engine-upzt.onrender.com/result/submit",{
+    fetch("https://quiz-engine-upzt.onrender.com/question/submit",{
 
         method:"POST",
 
@@ -112,22 +109,16 @@ function submitQuiz(){
         body:JSON.stringify(submission)
 
     })
-    .then(response => {
-
-        if(!response.ok){
-            throw new Error("Quiz submission failed");
-        }
-
-        return response.json();
-
-    })
+    .then(response => response.json())
     .then(data => {
 
         console.log("Result Response:", data);
 
-        alert("Your Score: " + data.score);
+        const score = data.score || data.totalScore;
 
-        localStorage.setItem("resultId", data.id);
+        alert("Your Score: " + score);
+
+        localStorage.setItem("resultId", data.id || data.resultId);
 
         window.location.href = "result.html";
 
@@ -146,9 +137,7 @@ function submitQuiz(){
 /* BACK BUTTON */
 
 function goBack(){
-
     window.location.href = "quizzes.html";
-
 }
 
 </script>
