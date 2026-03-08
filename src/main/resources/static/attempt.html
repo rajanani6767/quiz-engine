@@ -99,9 +99,9 @@ function submitQuiz(){
     .then(response => response.json())
     .then(data => {
 
-        alert("Your Score: " + data.score);
+        alert("Your Score: " + (data.score || data.totalScore));
 
-        localStorage.setItem("resultId", data.id);
+        localStorage.setItem("resultId", data.id || data.resultId);
 
         window.location.href="result.html";
     });
