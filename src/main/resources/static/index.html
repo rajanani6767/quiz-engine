@@ -1,24 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Quiz Engine</title>
+<title>Quiz Assessment Platform</title>
 </head>
-<body style="font-family: Arial; text-align:center; margin-top:100px;">
 
-    <h1>Welcome to Quiz Engine</h1>
+<body style="font-family:Arial;background:#eef2f7;text-align:center;padding-top:120px;">
 
-    <button onclick="goToRegister()">Register</button>
-    <button onclick="goToQuizzes()">View Quizzes</button>
+<h1 style="font-size:42px;color:#2c3e50;">Quiz Assessment Platform</h1>
 
-    <script>
-        function goToRegister() {
-            window.location.href = "register.html";
-        }
+<p style="font-size:18px;color:#555;">
+Test your knowledge and earn a professional certificate
+</p>
 
-        function goToQuizzes() {
-            window.location.href = "quizzes.html";
-        }
-    </script>
+<br>
+
+<button onclick="goToRegister()"
+style="
+padding:12px 25px;
+font-size:16px;
+background:#3498db;
+color:white;
+border:none;
+border-radius:6px;
+margin-right:10px;
+cursor:pointer;
+">
+
+Register
+</button>
+
+<button onclick="goToQuizzes()"
+style="
+padding:12px 25px;
+font-size:16px;
+background:#27ae60;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+">
+
+Start Quiz
+</button>
+
+<br><br><br>
+
+<p style="color:#777;">
+Complete quizzes and download your certificate instantly
+</p>
+
+<script>
+
+function goToRegister(){
+window.location.href="register.html";
+}
+
+function goToQuizzes(){
+window.location.href="quizzes.html";
+}
+
+</script>
 
 </body>
 </html>

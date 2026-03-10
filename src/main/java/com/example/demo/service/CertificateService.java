@@ -1,42 +1,57 @@
 package com.example.demo.service;
 
-import java.io.ByteArrayOutputStream;
-
 import org.springframework.stereotype.Service;
-
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
 
 @Service
 public class CertificateService {
 
-    public byte[] generateCertificate(String userName, String quizTitle, int score) {
+    public String generateCertificate(String name, String quiz, int score) {
 
-        try {
+        String html = "<!DOCTYPE html>"
+                + "<html>"
+                + "<head>"
+                + "<style>"
+                + "body{"
+                + "background:#f4f4f4;"
+                + "display:flex;"
+                + "justify-content:center;"
+                + "align-items:center;"
+                + "height:100vh;"
+                + "font-family:'Times New Roman';"
+                + "}"
+                + ".certificate{"
+                + "width:800px;"
+                + "padding:40px;"
+                + "border:10px solid #2c3e50;"
+                + "background:white;"
+                + "text-align:center;"
+                + "}"
+                + "h1{font-size:40px;margin-bottom:30px;}"
+                + ".name{font-size:30px;font-weight:bold;margin:20px;}"
+                + ".quiz{font-size:24px;margin-top:20px;}"
+                + ".score{font-size:20px;margin-top:15px;}"
+                + "</style>"
+                + "</head>"
 
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                + "<body>"
+                + "<div class='certificate'>"
 
-            PdfWriter writer = new PdfWriter(outputStream);
-            PdfDocument pdfDocument = new PdfDocument(writer);
-            Document document = new Document(pdfDocument);
+                + "<h1>CERTIFICATE OF COMPLETION</h1>"
 
-            document.add(new Paragraph("CERTIFICATE OF COMPLETION"));
-            document.add(new Paragraph(" "));
-            document.add(new Paragraph("This is to certify that"));
-            document.add(new Paragraph(userName));
-            document.add(new Paragraph("has successfully completed the quiz"));
-            document.add(new Paragraph(quizTitle));
-            document.add(new Paragraph("Score: " + score));
+                + "<p>This is to certify that</p>"
 
-            document.close();
+                + "<div class='name'>" + name + "</div>"
 
-            return outputStream.toByteArray();
+                + "<p>has successfully completed the quiz</p>"
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("PDF generation failed");
-        }
+                + "<div class='quiz'>" + quiz + "</div>"
+
+                + "<div class='score'>Score : " + score + "</div>"
+
+                + "</div>"
+                + "</body>"
+                + "</html>";
+
+        return html;
     }
 }

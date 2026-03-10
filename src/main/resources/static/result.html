@@ -1,44 +1,82 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-    <title>Quiz Result</title>
+<title>Quiz Certificate</title>
 </head>
-<body style="font-family: Arial; text-align:center; margin-top:100px;">
 
-    <h2>Quiz Completed!</h2>
+<body style="text-align:center;font-family:Arial">
 
-    <p id="scoreText"></p>
+<h2>Quiz Completed!</h2>
 
-    <button onclick="downloadCertificate()">Download Certificate</button>
-    <br><br>
-    <button onclick="goHome()">Home</button>
+<p id="scoreText"></p>
 
-    <script>
+<button onclick="downloadCertificate()">Download Certificate</button>
 
-        const resultId = localStorage.getItem("resultId");
+<br><br> <button onclick="goHome()">Home</button>
 
-        // Show result ID
-        document.getElementById("scoreText").innerText =
-            "Your Result ID: " + resultId;
+<script>
 
-        function downloadCertificate() {
+const resultId = localStorage.getItem("resultId");
 
-            if(!resultId){
-                alert("Result not found");
-                return;
-            }
+document.getElementById("scoreText").innerText =
+"Result ID: " + resultId;
 
-            const url =
-            `https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`;
+function downloadCertificate(){
 
-            window.open(url, "_blank");
-        }
+fetch(`https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`)
+.then(res => res.text())
+.then(data => {
 
-        function goHome() {
-            window.location.href = "index.html";
-        }
+const parts = data.split("|");
 
-    </script>
+const name = parts[0];
+const quiz = parts[1];
+const score = parts[2];
+
+const certificate = `
+<html>
+<body style="font-family:Arial;text-align:center">
+
+<div style="
+width:800px;
+margin:auto;
+padding:40px;
+border:10px solid #2c3e50">
+
+<h1>CERTIFICATE OF ACHIEVEMENT</h1>
+
+<p>This certificate is awarded to</p>
+
+<h2>${name}</h2>
+
+<p>for successfully completing</p>
+
+<h3>${quiz}</h3>
+
+<p>Score Achieved: ${score}</p>
+
+<p>Date: ${new Date().toLocaleDateString()}</p>
+
+</div>
 
 </body>
+</html>
+`;
+
+const newWindow = window.open("");
+newWindow.document.write(certificate);
+
+});
+}
+
+function goHome(){
+window.location.href="index.html";
+}
+
+</script>
+
+</body>
+
 </html>

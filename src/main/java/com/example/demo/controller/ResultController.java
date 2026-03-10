@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +37,9 @@ public class ResultController {
         return resultRepository.findByUserId(userId);
     }
 
-    // Download Certificate
+    // Download Certificate (HTML Certificate)
     @GetMapping("/certificate/{resultId}")
-    public ResponseEntity<byte[]> downloadCertificate(@PathVariable Long resultId) {
+    public ResponseEntity<String> downloadCertificate(@PathVariable Long resultId) {
 
         // 1️⃣ Get Result
         Result result = resultRepository.findById(resultId).orElse(null);
@@ -59,17 +58,16 @@ public class ResultController {
             return ResponseEntity.notFound().build();
         }
 
-        // 4️⃣ Generate PDF
-        byte[] pdfBytes = certificateService.generateCertificate(
-                user.getName(),     // make sure field name is "name"
-                quiz.getTitle(),    // make sure field name is "title"
+        // 4️⃣ Generate Certificate HTML
+        String certificateHtml = certificateService.generateCertificate(
+                user.getName(),
+                quiz.getTitle(),
                 result.getScore()
         );
 
-        // 5️⃣ Return File
+        // 5️⃣ Return HTML page
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=certificate.pdf")
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdfBytes);
+                .header(HttpHeaders.CONTENT_TYPE, "text/html")
+                .body(certificateHtml);
     }
 }
