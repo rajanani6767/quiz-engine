@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
 <title>Quiz Certificate</title>
 </head>
@@ -12,9 +10,10 @@
 
 <p id="scoreText"></p>
 
-<button onclick="downloadCertificate()">Download Certificate</button>
+<button onclick="downloadCertificate()">View Certificate</button>
 
-<br><br> <button onclick="goHome()">Home</button>
+<br><br>
+<button onclick="goHome()">Home</button>
 
 <script>
 
@@ -25,50 +24,16 @@ document.getElementById("scoreText").innerText =
 
 function downloadCertificate(){
 
-fetch(`https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`)
-.then(res => res.text())
-.then(data => {
+    if(!resultId){
+        alert("Result not found");
+        return;
+    }
 
-const parts = data.split("|");
-
-const name = parts[0];
-const quiz = parts[1];
-const score = parts[2];
-
-const certificate = `
-<html>
-<body style="font-family:Arial;text-align:center">
-
-<div style="
-width:800px;
-margin:auto;
-padding:40px;
-border:10px solid #2c3e50">
-
-<h1>CERTIFICATE OF ACHIEVEMENT</h1>
-
-<p>This certificate is awarded to</p>
-
-<h2>${name}</h2>
-
-<p>for successfully completing</p>
-
-<h3>${quiz}</h3>
-
-<p>Score Achieved: ${score}</p>
-
-<p>Date: ${new Date().toLocaleDateString()}</p>
-
-</div>
-
-</body>
-</html>
-`;
-
-const newWindow = window.open("");
-newWindow.document.write(certificate);
-
-});
+    // ✅ DIRECTLY OPEN BACKEND CERTIFICATE
+    window.open(
+    `https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`,
+    "_blank"
+    );
 }
 
 function goHome(){
@@ -78,5 +43,4 @@ window.location.href="index.html";
 </script>
 
 </body>
-
 </html>
