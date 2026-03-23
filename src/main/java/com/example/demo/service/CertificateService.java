@@ -17,42 +17,38 @@ public class CertificateService {
                 + "<head>"
                 + "<style>"
 
-                + "@page { size: A4; margin: 40px; }"
+                + "@page { size: A4; margin: 30px; }"
 
                 + "body {"
                 + "font-family: 'Times New Roman';"
+                + "}"
+
+                + ".outer {"
+                + "width: 100%;"
+                + "height: 100%;"
+                + "border: 10px solid #2c3e50;"
+                + "padding: 30px;"
+                + "box-sizing: border-box;"
+                + "}"
+
+                + "table {"
+                + "width: 100%;"
+                + "height: 100%;"
                 + "text-align: center;"
                 + "}"
 
-                + ".certificate {"
-                + "border: 10px solid #2c3e50;"
-                + "padding: 40px;"
-                + "height: 90%;"
-                + "}"
-
-                + "h1 {"
-                + "font-size: 30px;"
-                + "margin-bottom: 20px;"
-                + "}"
-
-                + "h2 {"
-                + "font-size: 26px;"
-                + "margin: 15px;"
-                + "}"
-
-                + "h3 {"
-                + "font-size: 22px;"
-                + "}"
-
-                + "p {"
-                + "font-size: 18px;"
-                + "}"
+                + "h1 { font-size: 28px; margin-bottom: 20px; }"
+                + "h2 { font-size: 24px; margin: 10px; }"
+                + "h3 { font-size: 20px; }"
+                + "p { font-size: 16px; }"
 
                 + "</style>"
                 + "</head>"
 
                 + "<body>"
-                + "<div class='certificate'>"
+                + "<div class='outer'>"
+                + "<table>"
+                + "<tr><td>"
 
                 + "<h1>CERTIFICATE OF COMPLETION</h1>"
 
@@ -68,6 +64,8 @@ public class CertificateService {
 
                 + "<p>Date : " + date + "</p>"
 
+                + "</td></tr>"
+                + "</table>"
                 + "</div>"
                 + "</body>"
                 + "</html>";
