@@ -29,11 +29,9 @@ function downloadCertificate(){
         return;
     }
 
-    // ✅ OPEN CERTIFICATE (AUTO PRINT → SAVE AS PDF)
-    window.open(
-    `https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`,
-    "_blank"
-    );
+    // ✅ DIRECT DOWNLOAD (no new tab)
+    window.location.href =
+    `https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`;
 }
 
 function goHome(){

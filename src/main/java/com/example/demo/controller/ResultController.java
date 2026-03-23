@@ -37,13 +37,12 @@ public class ResultController {
         return resultRepository.findByUserId(userId);
     }
 
-    // Download Certificate (HTML Certificate)
+    // ✅ DOWNLOAD CERTIFICATE AS PDF
     @GetMapping("/certificate/{resultId}")
-    public ResponseEntity<String> downloadCertificate(@PathVariable Long resultId) {
+    public ResponseEntity<byte[]> downloadCertificate(@PathVariable Long resultId) {
 
         // 1️⃣ Get Result
         Result result = resultRepository.findById(resultId).orElse(null);
-
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
@@ -58,16 +57,17 @@ public class ResultController {
             return ResponseEntity.notFound().build();
         }
 
-        // 4️⃣ Generate Certificate HTML
-        String certificateHtml = certificateService.generateCertificate(
+        // 4️⃣ Generate PDF (IMPORTANT CHANGE)
+        byte[] pdfBytes = certificateService.generateCertificate(
                 user.getName(),
                 quiz.getTitle(),
                 result.getScore()
         );
 
-        // 5️⃣ Return HTML page
+        // 5️⃣ Force Download
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, "text/html")
-                .body(certificateHtml);
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=certificate.pdf")
+                .header(HttpHeaders.CONTENT_TYPE, "application/pdf")
+                .body(pdfBytes);
     }
 }
