@@ -87,6 +87,11 @@ public class CertificateService {
                 + "</div>"
                 + "</div>"
 
+                // ✅ AUTO PRINT FOR PDF
+                + "<script>"
+                + "window.onload = function(){ window.print(); }"
+                + "</script>"
+
                 + "</body>"
                 + "</html>";
 

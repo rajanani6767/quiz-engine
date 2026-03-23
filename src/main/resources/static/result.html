@@ -10,7 +10,7 @@
 
 <p id="scoreText"></p>
 
-<button onclick="downloadCertificate()">View Certificate</button>
+<button onclick="downloadCertificate()">Download Certificate</button>
 
 <br><br>
 <button onclick="goHome()">Home</button>
@@ -29,7 +29,7 @@ function downloadCertificate(){
         return;
     }
 
-    // ✅ DIRECTLY OPEN BACKEND CERTIFICATE
+    // ✅ OPEN CERTIFICATE (AUTO PRINT → SAVE AS PDF)
     window.open(
     `https://quiz-engine-upzt.onrender.com/result/certificate/${resultId}`,
     "_blank"
@@ -37,7 +37,7 @@ function downloadCertificate(){
 }
 
 function goHome(){
-window.location.href="index.html";
+    window.location.href="index.html";
 }
 
 </script>
