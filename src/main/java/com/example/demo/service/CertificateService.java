@@ -13,18 +13,64 @@ public class CertificateService {
 
         String date = LocalDate.now().toString();
 
-        String html = "<html><body style='font-family:Times New Roman;text-align:center;'>"
-                + "<div style='width:900px;margin:auto;padding:50px;border:12px solid #2c3e50;'>"
+        String html = "<html>"
+                + "<head>"
+                + "<style>"
+
+                + "@page { size: A4; margin: 40px; }"
+
+                + "body {"
+                + "font-family: 'Times New Roman';"
+                + "text-align: center;"
+                + "}"
+
+                + ".certificate {"
+                + "border: 10px solid #2c3e50;"
+                + "padding: 40px;"
+                + "height: 90%;"
+                + "}"
+
+                + "h1 {"
+                + "font-size: 30px;"
+                + "margin-bottom: 20px;"
+                + "}"
+
+                + "h2 {"
+                + "font-size: 26px;"
+                + "margin: 15px;"
+                + "}"
+
+                + "h3 {"
+                + "font-size: 22px;"
+                + "}"
+
+                + "p {"
+                + "font-size: 18px;"
+                + "}"
+
+                + "</style>"
+                + "</head>"
+
+                + "<body>"
+                + "<div class='certificate'>"
 
                 + "<h1>CERTIFICATE OF COMPLETION</h1>"
+
                 + "<p>This is to certify that</p>"
+
                 + "<h2>" + name + "</h2>"
+
                 + "<p>has successfully completed the quiz</p>"
+
                 + "<h3>" + quiz + "</h3>"
+
                 + "<p>Score : " + score + "</p>"
+
                 + "<p>Date : " + date + "</p>"
 
-                + "</div></body></html>";
+                + "</div>"
+                + "</body>"
+                + "</html>";
 
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
