@@ -17,17 +17,11 @@ public class CertificateService {
                 + "<div style='width:900px;margin:auto;padding:50px;border:12px solid #2c3e50;'>"
 
                 + "<h1>CERTIFICATE OF COMPLETION</h1>"
-
                 + "<p>This is to certify that</p>"
-
                 + "<h2>" + name + "</h2>"
-
                 + "<p>has successfully completed the quiz</p>"
-
                 + "<h3>" + quiz + "</h3>"
-
                 + "<p>Score : " + score + "</p>"
-
                 + "<p>Date : " + date + "</p>"
 
                 + "</div></body></html>";
